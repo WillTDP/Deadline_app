@@ -75,47 +75,56 @@ if (isset($_GET['del_task'])) {
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="indexstyle.css">
     <style>
-        body{ font: 14px sans-serif; text-align: center; }
+        /*body{ font: 14px sans-serif; text-align: center; }*/
     </style>
 </head>
-<body>
-    <h1 class="my-5">Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to our site.</h1>
-    <p>
-        <a href="reset-password.php" class="btn btn-warning">Reset Your password</a>
-        <a href="logout.php" class="btn btn-danger ml-3">Sign Out of Your Account</a>
+<body class="site">
+	<div class="wlcm">
+    <h1 class="Welcome">Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to our site.</h1>
+    <p class="account">
+        <a href="reset-password.php" class="btn">Reset Your password</a>
+        <a href="logout.php" class="btn">Sign Out of Your Account</a>
     </p>
-    <div class="heading">
-		<h2 style="font-style: 'Hervetica';">ToDo List Application PHP and MySQL database</h2>
 	</div>
-	<form method="post" action="index.php" class="input_form" >
-        <?php if (isset($errors)) { ?>
-	        <p><?php echo $errors; ?></p>
-        <?php } ?>
-		<input type="text" name="name" class="task_input">
-		<input type="text" name="description" class="description_input">
-		<button type="submit" name="submit" id="add_btn" class="add_btn">Add List</button>
-	</form>
-    <table>
-	<thead>
-		<tr>
-			<th>N</th>
-			<th>Tasks</th>
-			<th>Description</th>
-			<th style="width: 60px;">Action</th>
-		</tr>
-	</thead>
+	<div class="list">
+    	<div class="title">
+			<h2 style="font-style: 'Hervetica';">What's your ToDo?</h2>
+		</div>
+		<div class="Input_f">
+			<form method="post" action="index.php" class="Input_r">
+        		<?php if (isset($errors)) { ?>
+	        		<p><?php echo $errors; ?></p>
+        		<?php } ?>
+				<div class="input_e">
+					<input type="text" name="name" class="input">
+					<input type="text" name="description" class="input">
+				</div>
+				<div class="btn_e">
+					<button type="submit" name="submit" id="add_btn" class="btn2">Add List</button>
+				</div>
+			</form>
+		</div>
+    	<table>
+		<thead>
+			<tr class="things">
+				<th>N</th>
+				<th>Tasks</th>
+				<th>Description</th>
+				<th style="width: 60px;">Action</th>
+			</tr>
+		</thead>
 
-	<tbody>
-	<?php
+		<tbody>
+		<?php
             // select all tasks if page is visited or refreshed
 			require_once "server.php";
             $lists = mysqli_query($link, "SELECT * FROM lists");
 
             while ($row = $lists->fetch_assoc()) {
         ?>
-            <tr>
+            <tr class="things">
                 <td><?php echo $row['id'] ?></td>
                 <td class="name"><?php echo $row['name']; ?></td>
 				<td class="description"><?php echo $row['Description']; ?></td>
@@ -124,7 +133,8 @@ if (isset($_GET['del_task'])) {
                 </td>
             </tr>
         <?php } ?>
-	</tbody>
-</table>
+		</tbody>
+		</table>
+	</div>
 </body>
 </html>
