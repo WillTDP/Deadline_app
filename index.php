@@ -59,14 +59,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     	echo "<br />";
     	echo $Description_err;
 }
+
 }
+// delete task
+if (isset($_GET['del_task'])) {
+	$id = $_GET['del_task'];
 
-
-// Close connection
-mysqli_close($link);
-
-
-
+	mysqli_query($link, "DELETE FROM lists WHERE id=".$id);
+	header('location: index.php');
+}
 ?>
  
 <!DOCTYPE html>
@@ -107,20 +108,22 @@ mysqli_close($link);
 	</thead>
 
 	<tbody>
-		<?php 
-		// select all tasks if page is visited or refreshed
-		$lists = mysqli_query($db, "SELECT * FROM 'lists'");
+	<?php
+            // select all tasks if page is visited or refreshed
+			require_once "server.php";
+            $lists = mysqli_query($link, "SELECT * FROM lists");
 
-		$i = 1; while ($row = mysqli_fetch_array($lists)) { ?>
-			<tr>
-				<td> <?php echo $i; ?> </td>
-				<td class="name"> <?php echo $row['name']; ?> </td>
-				<td class="Description"> <?php echo $row['Description']; ?> </td>
-				<td class="delete"> 
-					<a href="index.php?del_task=<?php echo $row['id'] ?>">x</a> 
-				</td>
-			</tr>
-		<?php $i++; } ?>	
+            while ($row = $lists->fetch_assoc()) {
+        ?>
+            <tr>
+                <td><?php echo $row['id'] ?></td>
+                <td class="name"><?php echo $row['name']; ?></td>
+				<td class="description"><?php echo $row['Description']; ?></td>
+                <td class="delete">
+                    <a href="index.php?del_task=<?php echo $row['id'] ?>">x</a>
+                </td>
+            </tr>
+        <?php } ?>
 	</tbody>
 </table>
 </body>
