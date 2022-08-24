@@ -2,15 +2,11 @@
     background-color: #2C2A29;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     min-width: 1080px;
     max-width: 1080px;
     column-gap: 300px;
 
-}
-.wlcm{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
 }
 .Welcome {
     color: #E3E2DE;
@@ -22,7 +18,6 @@
     display: flex;
     flex-direction: column;
     text-decoration: none;
-    margin-bottom: 140px;
 }
 .btn {
     border: none;
@@ -49,7 +44,6 @@
     align-content: center;
     flex-direction: column;    
     justify-content: center;
-    flex-wrap: wrap;
 
 }
 .title{
@@ -59,12 +53,6 @@
 }
 .Input_f{
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-.input_e{
-    display: flex;
-    flex-direction: row;
 }
 .input {
     border-radius: 15px;
@@ -75,16 +63,13 @@
     margin-left: 10px;
     padding: 8px;
 }
-.btn_e{
-    display: flex;
-    flex-direction: row;
-}
 .btn2 {
-    display: flex;
     border: none;
+    display: flex;
     border-radius: 15px;
     padding: 10px;
-    margin-left: 15px;
+    margin-top: 30px;
+    margin-left: 135px;
     outline: 2px;
     outline-style: solid;
     outline-color: #E3E2DE;
@@ -93,6 +78,26 @@
     color: #E3E2DE;
     font: 14px sans-serif;
     font-weight: bold;
+}
+.err1{
+    position: absolute;
+    font: 12px sans-serif;
+    left: 580px;
+    top: 65px;
+    padding: 10px;
+    margin-top: 30px;
+    margin-left: 135px;
+    color: #e95d25;
+}
+.err{
+    position: absolute;
+    font: 12px sans-serif;
+    left: 750px;
+    top: 65px;
+    padding: 10px;
+    margin-top: 30px;
+    margin-left: 135px;
+    color: #e95d25;
 }
 .things {
     color: #E3E2DE;

@@ -55,9 +55,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 	}else{
     	// Display errors
-    	echo $name_err;
+    	echo "<p span class='err1'>", $name_err;
     	echo "<br />";
-    	echo $Description_err;
+    	echo "<p span class='err'>", $Description_err;
 }
 
 }
