@@ -3,11 +3,8 @@
 session_start();
 
 //connect to db
-define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'root');
-define('DB_NAME', 'deadline app');
-$link = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+require_once "server.php";
+
 
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
@@ -16,21 +13,58 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 }
 
 // insert a quote if submit button is clicked
-	if (isset($_POST['submit'])) {
-		if (empty($_POST['name'])) {
-			$errors = "You must fill in the task";
-		}else{
-			$name = $_POST['name'];
-            $sql = "INSERT INTO lists" . "(name) " . "VALUES " . "('$name')";
-            if ($mysqli→query($sql)) {
-                printf("Record inserted successfully.<br />");
-            };
-            
-            if ($mysqli→errno) {
-                printf("Could not insert record into table: %s<br />", $mysqli→error);
-            };			header('location: index.php');
-		}
-	}	
+// Define variables and initialize with empty values
+$name = $Description = "";
+$name_error = $Description_error = $list_error = "";
+ 
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+	$name = trim($_POST['name']);
+    $Description = trim($_POST['description']);
+    $name_error = "";
+    $Description_error = "";
+    $list_error = "";
+    $validated = true;
+
+	// Validate name
+	if(empty($name)){
+    	$name_err = "Please enter a name.";
+    	$validated = false;
+	}
+
+	// Validate description
+		if(empty($Description)){
+    		$Description_err = "Please enter a description.";
+    		$validated = false;
+	}
+	if($validated) {
+    	// Handle adding entry to DB
+		$sql = "INSERT INTO lists (name, Description) VALUES (?, ?)";
+
+	if($statement = mysqli_prepare($link, $sql)){
+    	// Bind variables to the prepared statement as parameters
+    	mysqli_stmt_bind_param($statement, "ss", $name, $Description);
+
+    	// Attempt to execute the prepared statement
+    	if(!mysqli_stmt_execute($statement)){
+        	echo "Oops! Something went wrong. Please try again later.";
+    	}
+
+    	// Close statement
+    	mysqli_stmt_close($statement);
+	}
+	}else{
+    	// Display errors
+    	echo $name_err;
+    	echo "<br />";
+    	echo $Description_err;
+}
+}
+
+
+// Close connection
+mysqli_close($link);
+
 
 
 ?>
@@ -48,7 +82,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 <body>
     <h1 class="my-5">Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to our site.</h1>
     <p>
-        <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a>
+        <a href="reset-password.php" class="btn btn-warning">Reset Your password</a>
         <a href="logout.php" class="btn btn-danger ml-3">Sign Out of Your Account</a>
     </p>
     <div class="heading">
@@ -58,7 +92,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <?php if (isset($errors)) { ?>
 	        <p><?php echo $errors; ?></p>
         <?php } ?>
-		<input type="text" name="task" class="task_input">
+		<input type="text" name="name" class="task_input">
+		<input type="text" name="description" class="description_input">
 		<button type="submit" name="submit" id="add_btn" class="add_btn">Add List</button>
 	</form>
     <table>
@@ -66,6 +101,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 		<tr>
 			<th>N</th>
 			<th>Tasks</th>
+			<th>Description</th>
 			<th style="width: 60px;">Action</th>
 		</tr>
 	</thead>
@@ -73,12 +109,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	<tbody>
 		<?php 
 		// select all tasks if page is visited or refreshed
-		$lists = mysqli_query($db, "SELECT * FROM lists");
+		$lists = mysqli_query($db, "SELECT * FROM 'lists'");
 
 		$i = 1; while ($row = mysqli_fetch_array($lists)) { ?>
 			<tr>
 				<td> <?php echo $i; ?> </td>
 				<td class="name"> <?php echo $row['name']; ?> </td>
+				<td class="Description"> <?php echo $row['Description']; ?> </td>
 				<td class="delete"> 
 					<a href="index.php?del_task=<?php echo $row['id'] ?>">x</a> 
 				</td>

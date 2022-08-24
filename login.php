@@ -13,7 +13,7 @@ require_once "server.php";
  
 // Define variables and initialize with empty values
 $username = $password = "";
-$username_erroror = $password_error = $login_error = "";
+$username_error = $password_error = $login_error = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
