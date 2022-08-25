@@ -74,7 +74,7 @@ if (isset($_GET['del_task'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <title>ToDo</title>
     <link rel="stylesheet" href="indexstyle.css">
     <style>
         /*body{ font: 14px sans-serif; text-align: center; }*/
