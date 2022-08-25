@@ -84,7 +84,6 @@ if (isset($_GET['del_task'])) {
 	<div class="wlcm">
     <h1 class="Welcome">Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to our site.</h1>
     <p class="account">
-        <a href="reset-password.php" class="btn">Reset Your password</a>
         <a href="logout.php" class="btn">Sign Out of Your Account</a>
     </p>
 	</div>
