@@ -83,17 +83,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <h2>Reset Password</h2>
         <p>Please fill out this form to reset your password.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> 
-            <div class="form-group">
+            <div class="form">
                 <label>New Password</label>
                 <input class="inpt" type="password" name="new_password" <?php echo (!empty($new_password_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $new_password; ?>">
                 <span class="invalid-feedback"><?php echo $new_password_error; ?></span>
             </div>
-            <div class="form-group">
+            <div class="form">
                 <label>Confirm Password</label>
                 <input class="inpt" type="password" name="confirm_password" <?php echo (!empty($confirm_password_error)) ? 'is-invalid' : ''; ?>">
                 <span class="invalid-feedback"><?php echo $confirm_password_error; ?></span>
             </div>
-            <div class="form-group">
+            <div class="form">
                 <input class="login" type="submit" value="Submit">
                 <a class="link" href="index.php">Cancel</a>
             </div>

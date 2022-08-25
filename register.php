@@ -4,14 +4,14 @@ require_once "server.php";
  
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
-$username_err = $password_err = $confirm_password_err = "";
+$username_error = $password_error = $confirm_password_error = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
  
     // Validate username
     if(empty($_POST["username"])){
-        $username_err = "Please enter a username.";
+        $username_error = "Please enter a username.";
     } else{
         // Prepare a select statement
         $sql = "SELECT id FROM users WHERE username = ?";
@@ -29,7 +29,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 mysqli_stmt_store_result($statement);
                 
                 if(mysqli_stmt_num_rows($statement) == 1){
-                    $username_err = "This username is already taken.";
+                    $username_error = "This username is already taken.";
                 } else{
                     $username = $_POST["username"];
                 }
@@ -44,13 +44,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     // Validate password
     if(empty($_POST["password"])){
-        $password_err = "Please enter a password.";     
+        $password_error = "Please enter a password.";     
     } else{
         $password = $_POST["password"]  ;
     }
     
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($username_error) && empty($password_error) && empty($confirm_password_error)){
         
         // Prepare an insert statement
         $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
@@ -93,17 +93,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <h2>Sign Up</h2>
         <p>Please fill this form to create an account.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <div class="form-group">
+            <div class="form">
                 <label>Username:</label>
-                <input class="inpt" type="text" name="username" class="form-control <?php echo (!empty($username_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
+                <input class="inpt" type="text" name="username"<?php echo (!empty($username_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
                 <span class="invalid-feedback"><?php echo $username_error; ?></span>
             </div>    
-            <div class="form-group">
+            <div class="form">
                 <label>Password:</label>
-                <input class="inpt" type="password" name="password" class="form-control <?php echo (!empty($password_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
+                <input class="inpt" type="password" name="password" <?php echo (!empty($password_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
                 <span class="invalid-feedback"><?php echo $password_error; ?></span>
             </div>
-            <div class="form-group">
+            <div class="form">
                 <input class="login" type="submit" class="btn btn-primary" value="Submit">
             </div>
             <p>Already have an account? <a class="link" href="login.php">Login here</a>.</p>
