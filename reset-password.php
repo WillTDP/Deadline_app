@@ -21,8 +21,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate new password
     if(empty(trim($_POST["new_password"]))){
         $new_password_error = "Please enter the new password.";     
-    } elseif(strlen(trim($_POST["new_password"])) < 6){
-        $new_password_error = "Password must have atleast 6 characters.";
+    }
     } else{
         $new_password = trim($_POST["new_password"]);
     }
@@ -47,7 +46,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             mysqli_stmt_bind_param($statement, "si", $param_password, $param_id);
             
             // Set parameters
-            $param_password = password_hash($new_password, PASSWORD_DEFAULT);
+            $param_password = password_hash($password, PASSWORD_BCRYPT);
             $param_id = $_SESSION["id"];
             
             // Attempt to execute the prepared statement
@@ -67,7 +66,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     // Close connection
     mysqli_close($link);
-}
+
 ?>
  
 <!DOCTYPE html>
